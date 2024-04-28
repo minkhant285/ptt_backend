@@ -4,34 +4,36 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
-    DeleteDateColumn,
-    JoinColumn,
-    ManyToOne,
-    OneToOne,
+    Index,
     OneToMany,
+    DeleteDateColumn,
+    OneToOne,
+    ManyToOne,
+    JoinColumn,
 } from 'typeorm';
+import { ExchangeTypeEntity } from './exchange_type.entity';
 import { ExchangeRateEntity } from './exchange_rate.entity';
-import { ExchangeTransitionEntity } from './exchange_transition.entity';
 
-@Entity('exchange_type')
-export class ExchangeTypeEntity {
+@Entity('exchange_transitions')
+export class ExchangeTransitionEntity {
 
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @OneToOne(() => ExchangeTypeEntity)
+    @JoinColumn()
+    exchange_type: ExchangeTypeEntity;
+
+    @ManyToOne(() => ExchangeRateEntity, (e) => e.id)
+    @JoinColumn({ name: 'rate_id' })
+    rate: ExchangeRateEntity;
+
     @Column()
-    title: string;
-
-    @Column({ nullable: true })
-    icon: string;
-
-    @OneToMany(() => ExchangeTransitionEntity, (e) => e.exchange_type)
-    exchange_transition: ExchangeTransitionEntity[];
+    price: number;
 
     @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
     created_at: Date;
 
     @UpdateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
     updated_at: Date;
-
 }

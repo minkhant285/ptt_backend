@@ -7,10 +7,18 @@ export interface IExchangeType extends ICreateExchangeType {
     id: string;
 }
 
+export interface ICreateExchangeTransition {
+    exchange_type: IExchangeType;
+    price: number;
+}
+
+export interface IExchangeTransition extends ICreateExchangeTransition {
+    id: string;
+}
+
 
 export interface ICreateExchangeRate {
-    exchange_type: ICreateExchangeType[];
-    exchange_info?: { exchange_type: ICreateExchangeType, price: number };
+    exchange_types: IExchangeTransition[];
     user_id: string;
 }
 

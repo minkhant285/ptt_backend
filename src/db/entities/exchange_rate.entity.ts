@@ -9,6 +9,7 @@ import {
     DeleteDateColumn,
 } from 'typeorm';
 import { ExchangeTypeEntity } from './exchange_type.entity';
+import { ExchangeTransitionEntity } from './exchange_transition.entity';
 
 @Entity('exchange_rate')
 export class ExchangeRateEntity {
@@ -19,15 +20,13 @@ export class ExchangeRateEntity {
     @Column()
     user_id: string;
 
-    @OneToMany(() => ExchangeTypeEntity, (ex) => ex.exchange_rate_id)
-    exchange_type: ExchangeTypeEntity[];
+    @OneToMany(() => ExchangeTransitionEntity, (ex) => ex.rate)
+    exchange_types: ExchangeTransitionEntity[];
 
     @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
     created_at: Date;
 
     @UpdateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
     updated_at: Date;
-
-    @DeleteDateColumn()
-    deleted_at?: Date;
 }
+

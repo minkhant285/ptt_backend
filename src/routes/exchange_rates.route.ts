@@ -13,9 +13,11 @@ export class ExchangeRateRoutes {
 
     routes() {
         this.router.get(`/`, this.exchangeRateController.getAllExchangeRate);
+        // this.router.get(`/transitions`, this.exchangeRateController.getAllExchangeTransitions);
         // this.router.get(`/:id`, this.categoryController.getCategoryById);
         // this.router.put(`/:id`, this.categoryController.updateCategoryById);
         // this.router.delete(`/:id`, this.categoryController.deleteCategoryId);
         this.router.post(`/`, this.exchangeRateController.createExchangeRate);
+        // this.router.post(`/transitions`, this.exchangeRateController.createExchangetransitions);
     }
 }

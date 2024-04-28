@@ -11,9 +11,9 @@ export class ExchangeTypeRoutes {
 
     routes() {
         this.router.get(`/`, this.exchangeTypeController.getAllExchangeType);
-        this.router.get(`/:id`, this.exchangeTypeController.getExchangeTypeById);
+        // this.router.get(`/:id`, this.exchangeTypeController.getExchangeTypeById);
         // this.router.put(`/:id`, this.categoryController.updateCategoryById);
         this.router.delete(`/:id`, this.exchangeTypeController.deleteExchangeById);
-        this.router.post(`/`, this.exchangeTypeController.createExchangeType);
+        // this.router.post(`/`, this.exchangeTypeController.createExchangeType);
     }
 }

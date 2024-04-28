@@ -2,23 +2,45 @@ import { Request, Response } from 'express';
 import { Repository } from 'typeorm';
 import { AppDataSource } from '../db/data-source';
 import { ExchangeRateEntity } from '../db/entities/exchange_rate.entity';
-import { ICreateExchangeRate, IExchangeRate } from '../models/exchange.model';
+import { ICreateExchangeRate, ICreateExchangeTransition, IExchangeRate } from '../models/exchange.model';
+import { ExchangeTransitionEntity } from '../db/entities/exchange_transition.entity';
 
 export class ExchangeRateController {
     private exchangeRateRepository: Repository<ExchangeRateEntity>;
+    private exchangeTransitionRepository: Repository<ExchangeTransitionEntity>;
 
     constructor() {
-        this.exchangeRateRepository = AppDataSource.getRepository(ExchangeRateEntity)
+        this.exchangeRateRepository = AppDataSource.getRepository(ExchangeRateEntity);
+        this.exchangeTransitionRepository = AppDataSource.getRepository(ExchangeTransitionEntity);
     }
 
 
     getAllExchangeRate = async (req: Request, res: Response) => {
-        let exchange: IExchangeRate[] = await this.exchangeRateRepository.find({ relations: ['exchange_type'] });
+        let exchange = await this.exchangeRateRepository.find({ relations: ['exchange_types'] });
+
         return res.json({
             data: exchange,
             status: res.statusCode
         });
     };
+
+    // getAllExchangeRate = async (req: Request, res: Response) => {
+    //     let exchange = await this.exchangeRateRepository.find({ relations: ['exchange_types', 'exchange_types.exchange_type'] });
+    //     return res.json({
+    //         data: exchange,
+    //         status: res.statusCode
+    //     });
+    // };
+
+    // getAllExchangeTransitions = async (req: Request, res: Response) => {
+    //     let exchange = await this.exchangeTransitionRepository.find({ relations: ['exchange_type'] });
+    //     return res.json({
+    //         data: exchange,
+    //         status: res.statusCode
+    //     });
+    // };
+
+
 
     // getCategoryById = async (req: Request, res: Response) => {
     //     let id: string = req.params.id;
@@ -56,7 +78,9 @@ export class ExchangeRateController {
 
     createExchangeRate = async (req: Request, res: Response) => {
         // get the data from req.body
-        let body: ICreateExchangeRate = req.body;
+        let body = req.body;
+        body.Date = new Date(body.Date);
+        console.log(body);
         let created = await this.exchangeRateRepository.save(body);
         // return response
         return res.status(201).json({
@@ -64,4 +88,16 @@ export class ExchangeRateController {
             status: res.statusCode
         });
     };
+
+    // createExchangetransitions = async (req: Request, res: Response) => {
+    //     // get the data from req.body
+    //     let body: ICreateExchangeTransition = req.body;
+
+    //     let created = await this.exchangeTransitionRepository.save(body);
+    //     // return response
+    //     return res.status(201).json({
+    //         data: created,
+    //         status: res.statusCode
+    //     });
+    // };
 }
