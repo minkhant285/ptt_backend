@@ -7,8 +7,11 @@ import {
     DeleteDateColumn,
     JoinColumn,
     ManyToOne,
+    OneToOne,
+    OneToMany,
 } from 'typeorm';
 import { ExchangeRateEntity } from './exchange_rate.entity';
+import { ExchangeTransitionEntity } from './exchange_transition.entity';
 
 @Entity('exchange_type')
 export class ExchangeTypeEntity {
@@ -19,22 +22,16 @@ export class ExchangeTypeEntity {
     @Column()
     title: string;
 
-    // @Column()
-    // price: number;
-
     @Column({ nullable: true })
     icon: string;
 
-    @ManyToOne(() => ExchangeRateEntity, (extype) => extype.id)
-    @JoinColumn({ name: 'exchange_rate_id' })
-    exchange_rate_id: ExchangeRateEntity;
+    @OneToMany(() => ExchangeTransitionEntity, ex_trans => ex_trans.exchange_type)
+    public exchange_transition: ExchangeTransitionEntity[];
 
     @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
     created_at: Date;
 
-    @UpdateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
-    updated_at: Date;
+    // @UpdateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
+    // updated_at: Date;
 
-    @DeleteDateColumn()
-    deleted_at?: Date;
 }
