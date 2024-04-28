@@ -16,7 +16,7 @@ export class ExchangeRateController {
 
 
     getAllExchangeRate = async (req: Request, res: Response) => {
-        let exchange = await this.exchangeRateRepository.find({ relations: ['exchange_types'] });
+        let exchange = await this.exchangeRateRepository.find({ relations: ['exchange_transition', 'exchange_transition.exchange_type'] });
 
         return res.json({
             data: exchange,
@@ -24,13 +24,6 @@ export class ExchangeRateController {
         });
     };
 
-    // getAllExchangeRate = async (req: Request, res: Response) => {
-    //     let exchange = await this.exchangeRateRepository.find({ relations: ['exchange_types', 'exchange_types.exchange_type'] });
-    //     return res.json({
-    //         data: exchange,
-    //         status: res.statusCode
-    //     });
-    // };
 
     // getAllExchangeTransitions = async (req: Request, res: Response) => {
     //     let exchange = await this.exchangeTransitionRepository.find({ relations: ['exchange_type'] });
@@ -79,7 +72,6 @@ export class ExchangeRateController {
     createExchangeRate = async (req: Request, res: Response) => {
         // get the data from req.body
         let body = req.body;
-        body.Date = new Date(body.Date);
         console.log(body);
         let created = await this.exchangeRateRepository.save(body);
         // return response
@@ -89,15 +81,16 @@ export class ExchangeRateController {
         });
     };
 
-    // createExchangetransitions = async (req: Request, res: Response) => {
-    //     // get the data from req.body
-    //     let body: ICreateExchangeTransition = req.body;
+    createExchangetransitions = async (req: Request, res: Response) => {
+        // get the data from req.body
+        let body: ICreateExchangeTransition = req.body;
+        console.log(body)
 
-    //     let created = await this.exchangeTransitionRepository.save(body);
-    //     // return response
-    //     return res.status(201).json({
-    //         data: created,
-    //         status: res.statusCode
-    //     });
-    // };
+        let created = await this.exchangeTransitionRepository.save(body);
+        // return response
+        return res.status(201).json({
+            data: created,
+            status: res.statusCode
+        });
+    };
 }

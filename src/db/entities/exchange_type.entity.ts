@@ -25,13 +25,13 @@ export class ExchangeTypeEntity {
     @Column({ nullable: true })
     icon: string;
 
-    @OneToMany(() => ExchangeTransitionEntity, (e) => e.exchange_type)
-    exchange_transition: ExchangeTransitionEntity[];
+    @OneToMany(() => ExchangeTransitionEntity, ex_trans => ex_trans.exchange_type)
+    public exchange_transition: ExchangeTransitionEntity[];
 
     @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
     created_at: Date;
 
-    @UpdateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
-    updated_at: Date;
+    // @UpdateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
+    // updated_at: Date;
 
 }

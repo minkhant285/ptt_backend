@@ -20,20 +20,24 @@ export class ExchangeTransitionEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @OneToOne(() => ExchangeTypeEntity)
-    @JoinColumn()
-    exchange_type: ExchangeTypeEntity;
+    // @Column()
+    // exchange_type_id: string;
 
-    @ManyToOne(() => ExchangeRateEntity, (e) => e.id)
-    @JoinColumn({ name: 'rate_id' })
-    rate: ExchangeRateEntity;
+    // @Column()
+    // exchange_rate_id: string;
 
     @Column()
     price: number;
 
+    @ManyToOne(() => ExchangeTypeEntity, (ex_type) => ex_type.exchange_transition)
+    public exchange_type: ExchangeTypeEntity;
+
+    @ManyToOne(() => ExchangeRateEntity, (ex_rate) => ex_rate.exchange_transition)
+    public exchange_rate: ExchangeRateEntity;
+
     @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
     created_at: Date;
 
-    @UpdateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
-    updated_at: Date;
+    // @UpdateDateColumn({ default: () => 'CURRENT_TIMESTAMP', type: 'timestamp' })
+    // updated_at: Date;
 }
