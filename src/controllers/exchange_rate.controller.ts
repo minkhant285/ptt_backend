@@ -25,49 +25,49 @@ export class ExchangeRateController {
     };
 
 
-    // getAllExchangeTransitions = async (req: Request, res: Response) => {
-    //     let exchange = await this.exchangeTransitionRepository.find({ relations: ['exchange_type'] });
-    //     return res.json({
-    //         data: exchange,
-    //         status: res.statusCode
-    //     });
-    // };
+    getAllExchangeTransitions = async (req: Request, res: Response) => {
+        let exchange = await this.exchangeTransitionRepository.find({ relations: ['exchange_type'] });
+        return res.json({
+            data: exchange,
+            status: res.statusCode
+        });
+    };
 
 
 
-    // getCategoryById = async (req: Request, res: Response) => {
-    //     let id: string = req.params.id;
-    //     let supplier: IUOM | null = await this.exchanteRepository.findOne({ where: { id }, relations: { stock: true } });
-    //     return res.status(200).json({
-    //         data: supplier,
-    //         status: res.statusCode
-    //     });
-    // };
+    getExchangeRateById = async (req: Request, res: Response) => {
+        let id: string = req.params.id;
+        let ex_rate = await this.exchangeRateRepository.findOne({ where: { id }, relations: ['exchange_transition', 'exchange_transition.exchange_type'] });
+        return res.status(200).json({
+            data: ex_rate,
+            status: res.statusCode
+        });
+    };
 
-    // updateCategoryById = async (req: Request, res: Response) => {
-    //     let id: string = req.params.id; // get the user id from the req.params
-    //     let body: ICreateCategory = req.body ?? null; // get the data from req.body
-    //     let updated = await this.exchanteRepository.update(id, body);
-    //     if (updated.affected !== 1) {
-    //         return res.status(500).json({
-    //             data: updated,
-    //             status: res.statusCode
-    //         })
-    //     }
-    //     return res.status(204).json({
-    //         data: updated,
-    //         status: res.statusCode
-    //     });
-    // };
+    updateExchangeRateById = async (req: Request, res: Response) => {
+        let id: string = req.params.id;
+        let body = req.body ?? null;
+        let updated = await this.exchangeRateRepository.update(id, body);
+        if (updated.affected !== 1) {
+            return res.status(500).json({
+                data: updated,
+                status: res.statusCode
+            })
+        }
+        return res.status(204).json({
+            data: updated,
+            status: res.statusCode
+        });
+    };
 
-    // deleteCategoryId = async (req: Request, res: Response) => {
-    //     let id: string = req.params.id; // get the user id from req.params
-    //     let deleted = await this.exchanteRepository.softDelete(id);
-    //     return res.status(204).json({
-    //         data: deleted,
-    //         status: res.statusCode
-    //     });
-    // };
+    deleteExchangeRateById = async (req: Request, res: Response) => {
+        let id: string = req.params.id; // get the user id from req.params
+        let deleted = await this.exchangeRateRepository.delete(id);
+        return res.status(204).json({
+            data: deleted,
+            status: res.statusCode
+        });
+    };
 
     createExchangeRate = async (req: Request, res: Response) => {
         // get the data from req.body

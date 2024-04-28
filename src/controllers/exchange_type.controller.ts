@@ -29,7 +29,7 @@ export class ExchangeTypeController {
         });
     };
 
-    updateCategoryById = async (req: Request, res: Response) => {
+    updateExTypeById = async (req: Request, res: Response) => {
         let id: string = req.params.id; // get the user id from the req.params
         let body = req.body ?? null; // get the data from req.body
         let updated = await this.exchangeTypeRepository.update(id, body);
